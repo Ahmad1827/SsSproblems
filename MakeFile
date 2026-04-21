@@ -1,0 +1,47 @@
+SSS
+Nume: Ahmad Arnaoute
+Student Facultatea de Automatica si Calculatoare anul 2
+Grupa: 324CD
+Email: ahmadarnaoute1896@gmail.com
+Numar telefon: 0720680662
+linkedin: https://www.linkedin.com/in/ahmad-arnaoute-974465283/
+
+Aplicare track Binary:
+
+Rezolvare probleme:
+
+ - Black Hole:
+	- Mi am instalat ghidra si jdk 21, am creat un proiect nou si am importat fisierul
+	  executabilul primit dupa ce am dezarhivat arhiva. Am intrat in entry point si am
+	  descoperit fisierul main scris in C uitandu ma deasupra apelului din codul scris
+	  in assembly. Am observat ca in fwrite se afiseaza __ptr (in care probabil se afla flagul)
+	  doar ca fwrite se duce in /dev/null deci nu se afiseaza nicaieri ptr ul si se sterge,
+	  asa ca am folosit gdb si am pus un breakpoint fix la fwrite si am afisat ce era in rdi
+	  (locul unde se pune valoarea primului argument al unei functii)
+ - One-by-one:
+	-Am importat iar executabilul in ghidra am inspectat zonele din functions si n am gasit nmc
+	asa ca m am gandit ca poate mesajul este pus undeva dar niciodata folosit asa ca am inceput
+	sa caut prin zonele de memorie .rodata si .data (unde am si gasit mesajul pus dezordonat).
+	Am rulat cu objdump (objdump -s -j .data one_by_one) sa vad textul tradus din hexa si 
+	era cum m am asteptat dezordonat. Din lene am ales sa mi fac un script python care sa mi sorteze
+	caractele si bam am gasit flagul. Mai jos e scriptul:
+		
+		from pwn import *
+
+		elf = ELF('./one_by_one')
+		flag = ""
+		i = 0
+
+		while True:
+			sym_name = f"part{i}"
+			if sym_name in elf.symbols:
+				addr = elf.symbols[sym_name]
+				flag += chr(elf.read(addr, 1)[0])
+				i += 1
+			else:
+				break
+
+		print(flag)
+ 
+ -Pinpoint:
+	-
