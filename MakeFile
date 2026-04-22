@@ -44,4 +44,16 @@ Rezolvare probleme:
 		print(flag)
  
  -Pinpoint:
-	-
+	-am rulat comanda nc nc 141.85.224.101 31301 in bash
+	si am vzt ca imi cere sa pun o adresa si o valoare, dupa
+	ce am importat fisierul dat dupa dezarhivare in ghidra
+	si am deschis mainul am vzt ca fix printurile de cerere
+	adresa si valoare sunt la inceputul mainului si am mai vazut
+	ca daca o variabila globala "v" este egala cu 53585353
+	atunci se deschide un terminal. am vazut ca v avea valoarea
+	initiala 53535353 in listing asa ca am facut simpla conexiune 
+	ca *local18 = local19 inseamna ca eu trb sa dau valori pt 18 si 19
+	in asa fel incat sa schimb byteul 53 in 58 (local19 are un singur byte).
+	asa ca m am dus in listing sa vad la ce adresa este acest v si am vzt 
+	00601058 dar eu trb sa citesc la al 3lea byte (de la dreapta la stanga)
+	deci 0060105a (Asta e adresa) trb sa citesc valoarea 88.
